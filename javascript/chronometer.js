@@ -4,32 +4,34 @@ class Chronometer {
   }
 
   start(printTimeCallback) {
-      this.intervalId = setInterval(() => {
-       this.currentTime += 1;
-       if (typeof printTimeCallback == 'function') {
-        printTimeCallback(); 
-        }
-      }, 1000);
+    this.intervalId = setInterval(() => {
+      this.currentTime += 1;
+      if (typeof printTimeCallback == 'function') {
+        printTimeCallback();
+      }
+    }, 10);
   }
 
   getMinutes() {
-    return Math.floor(this.currentTime / 60)
+    let milisecToSec = this.currentTime*0.01
+    let miliSecToMin = milisecToSec*0.166667
+    return Math.floor(miliSecToMin / 60);
   }
 
   getSeconds() {
-    return Math.floor(this.currentTime % 60)
-   
+    let milisecToSec = this.currentTime*0.01
+    return Math.floor(milisecToSec % 60);
   }
 
-  getMilliseconds() {
-    
-  }
+  getMilliseconds() {   
+    return this.currentTime % 100;
+   }
 
   computeTwoDigitNumber(value) {
     if (value < 10) {
-      return `0${value}`
+      return `0${value}`;
     } else {
-      return `${value}`
+      return `${value}`;
     }
   }
 
@@ -42,16 +44,15 @@ class Chronometer {
   }
 
   split() {
-     let minutes = this.getMinutes();
-     let seconds = this.getSeconds();
-     let getMilliseconds = this.getMilliseconds();
-     let minuteDigits = this.computeTwoDigitNumber(minutes)
-     let secondDigits = this.computeTwoDigitNumber(seconds)
+    let minutes = this.getMinutes();
+    let seconds = this.getSeconds();
+    let getMilliseconds = this.getMilliseconds();
 
-    return `${minuteDigits}:${secondDigits}`
+    let minuteDigits = this.computeTwoDigitNumber(minutes);
+    let secondDigits = this.computeTwoDigitNumber(seconds);
+
+    return `${minuteDigits}:${secondDigits}:${getMilliseconds}`;
   }
-
-  
 }
 
 // The following is required to make unit tests work.
